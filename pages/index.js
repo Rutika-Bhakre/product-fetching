@@ -43,8 +43,10 @@ export default function Home({ cartData }) {
   );
 }
 
-export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/cart');
+export async function getServerSideProps(context) {
+  const protocol = context.req.headers['x-forwarded-proto'] || 'http';
+  const host = context.req.headers.host;
+  const res = await fetch(`${protocol}://${host}/api/cart`);
   const cartData = await res.json();
 
   return {

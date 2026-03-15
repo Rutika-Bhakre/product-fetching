@@ -43,11 +43,27 @@ export default function Home({ cartData }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const protocol = context.req.headers['x-forwarded-proto'] || 'http';
-  const host = context.req.headers.host;
-  const res = await fetch(`${protocol}://${host}/api/cart`);
-  const cartData = await res.json();
+export async function getServerSideProps() {
+  const cartData = {
+    cartItems: [
+      {
+        product_id: 101,
+        product_name: "Bamboo Toothbrush (Pack of 4)",
+        product_price: 299,
+        quantity: 2,
+        image: "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=150&h=150&fit=crop"
+      },
+      {
+        product_id: 102,
+        product_name: "Reusable Cotton Produce Bags",
+        product_price: 450,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=150&h=150&fit=crop"
+      }
+    ],
+    shipping_fee: 50,
+    discount_applied: 0
+  };
 
   return {
     props: { cartData }
